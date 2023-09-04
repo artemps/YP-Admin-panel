@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS content.film_work (
     description TEXT,
     creation_date DATE NOT NULL,
     rating FLOAT,
-    type VARCHAR(255) NOT NULL,
+    type VARCHAR(2) NOT NULL,
     created timestamp with time zone,
     modified timestamp with time zone
 );
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS content.person_film_work (
     id uuid PRIMARY KEY,
     film_work_id uuid NOT NULL,
     person_id uuid NOT NULL,
-    role VARCHAR(255) NOT NULL,
+    role VARCHAR(2) NOT NULL,
     created timestamp with time zone
 );
 CREATE UNIQUE INDEX film_work_person_idx ON content.person_film_work(film_work_id, person_id);
