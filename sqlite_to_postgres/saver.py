@@ -1,8 +1,8 @@
 from typing import Sequence
 
+from dataclasses import fields, astuple
 from psycopg2.extensions import connection as _connection
 from psycopg2 import OperationalError, Error
-from dataclasses import fields, astuple
 
 from data_classes import FilmWork, Genre, Person, GenreFilmWork, PersonFilmWork
 
@@ -28,7 +28,7 @@ class PostgresSaver:
         col_count = ', '.join(['%s'] * len(column_names))
 
         data = [astuple(obj) for obj in data]
-        bind_values = ','.join(self._cursor.mogrify(f"({col_count})", row).decode('utf-8') for row in data)
+        bind_values = ','.join(self._cursor.mogrify(f'({col_count})', row).decode('utf-8') for row in data)
         column_names = ', '.join(column_names)
 
         query = (

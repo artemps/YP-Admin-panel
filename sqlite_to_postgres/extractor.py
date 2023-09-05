@@ -6,6 +6,7 @@ from data_classes import FilmWork, Genre, Person, GenreFilmWork, PersonFilmWork,
 
 class SQLiteExtractor:
     """Класс для работы с чтением из SQLIte"""
+
     def __init__(self, conn: sqlite3.Connection):
         self._cursor = conn.cursor()
 
@@ -19,15 +20,15 @@ class SQLiteExtractor:
             table:  Имя базы данных
             chunk_size: Размер порции данных для чтения
 
-        Returns:
+        Yields:
             data: Список строк из базы данных
         """
-        self._cursor.execute(f"SELECT * FROM {table} LIMIT {chunk_size};")
+        self._cursor.execute(f'SELECT * FROM {table} LIMIT {chunk_size};')
         offset = chunk_size
         data = self._cursor.fetchall()
         while data:
             yield data
-            self._cursor.execute(f"SELECT * FROM {table} LIMIT {chunk_size} OFFSET {offset};")
+            self._cursor.execute(f'SELECT * FROM {table} LIMIT {chunk_size} OFFSET {offset};')
             data = self._cursor.fetchall()
             offset += chunk_size
 

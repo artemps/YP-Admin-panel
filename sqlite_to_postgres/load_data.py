@@ -1,9 +1,9 @@
+import logging
 import os
 import sqlite3
-import logging
 
-from psycopg2.extensions import connection as _connection
 from dotenv import load_dotenv
+from psycopg2.extensions import connection as _connection
 
 from extractor import SQLiteExtractor
 from saver import PostgresSaver
