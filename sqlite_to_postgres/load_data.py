@@ -10,7 +10,7 @@ from saver import PostgresSaver
 from utils import sqlite_conn_context, postgresql_conn_context
 
 load_dotenv()
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=os.environ.get('LOG_LEVEL'))
 logger = logging.getLogger('load_data')
 
 

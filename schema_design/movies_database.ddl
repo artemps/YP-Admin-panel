@@ -29,7 +29,13 @@ CREATE TABLE IF NOT EXISTS content.person_film_work (
     role VARCHAR(8) NOT NULL,
     created timestamp with time zone
 );
-CREATE INDEX film_work_person_idx ON content.person_film_work(film_work_id, person_id);
+ALTER TABLE content.person_film_work ADD CONSTRAINT person_film_work_film_work_id_fk
+    FOREIGN KEY (film_work_id) REFERENCES content.film_work (id) ON DELETE CASCADE;
+ALTER TABLE content.person_film_work ADD CONSTRAINT person_film_work_person_id_fk
+    FOREIGN KEY (person_id) REFERENCES content.person (id) ON DELETE CASCADE;
+CREATE UNIQUE INDEX film_work_person_role_unique_idx ON content.person_film_work(film_work_id, person_id, role);
+ALTER TABLE content.person_film_work ADD CONSTRAINT film_work_person_role_unique_idx
+    UNIQUE USING INDEX film_work_person_role_unique_idx;
 
 -- GENRE
 CREATE TABLE IF NOT EXISTS content.genre (
@@ -45,4 +51,10 @@ CREATE TABLE IF NOT EXISTS content.genre_film_work (
     genre_id uuid NOT NULL,
     created timestamp with time zone
 );
-CREATE UNIQUE INDEX film_work_genre_idx ON content.genre_film_work(film_work_id, genre_id);
+ALTER TABLE content.genre_film_work ADD CONSTRAINT genre_film_work_film_work_id_fk
+    FOREIGN KEY (film_work_id) REFERENCES content.film_work (id) ON DELETE CASCADE;
+ALTER TABLE content.genre_film_work ADD CONSTRAINT genre_film_work_genre_id_fk
+    FOREIGN KEY (genre_id) REFERENCES content.genre (id) ON DELETE CASCADE;
+CREATE UNIQUE INDEX film_work_genre_unique_idx ON content.genre_film_work(film_work_id, genre_id);
+ALTER TABLE content.genre_film_work ADD CONSTRAINT film_work_genre_unique_idx
+    UNIQUE USING INDEX film_work_genre_unique_idx;

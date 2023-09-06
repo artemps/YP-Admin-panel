@@ -12,7 +12,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         TV_SHOW = _('tv_show')
 
     title = models.CharField(verbose_name=_('Title'), max_length=255)
-    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    description = models.TextField(verbose_name=_('Description'), blank=True)
     creation_date = models.DateField(verbose_name=_('Release date'), blank=True, null=True)
     rating = models.FloatField(
         verbose_name=_('Rating'),
@@ -43,7 +43,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
 class Genre(UUIDMixin, TimeStampedMixin):
     name = models.CharField(verbose_name=_('Title'), max_length=255)
-    description = models.TextField(verbose_name=_('Description'), blank=True, null=True)
+    description = models.TextField(verbose_name=_('Description'), blank=True)
 
     class Meta:
         db_table = "content\".\"genre"
@@ -99,6 +99,6 @@ class PersonFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"person_film_work"
-        indexes = [
-            models.Index(fields=["film_work", "person"], name='film_work_person_idx')
+        constraints = [
+            models.UniqueConstraint(fields=['film_work', 'person', 'role'], name='film_work_person_role_unique')
         ]
