@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Filmwork, Genre, Person, GenreFilmwork, PersonFilmwork
+from .models import Filmwork, Genre, Person, GenreFilmwork, PersonFilmwork, User
 
 
 @admin.register(Genre)
@@ -28,3 +28,10 @@ class FilmworkAdmin(admin.ModelAdmin):
     list_display = ('title', 'type', 'creation_date', 'rating',)
     list_filter = ('type', 'creation_date')
     search_fields = ('title', 'description', 'id')
+
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('email', 'first_name', 'last_name', 'is_active', 'is_admin')
+    list_filter = ('is_admin', 'is_active')
+    search_fields = ('email', 'first_name', 'last_name')

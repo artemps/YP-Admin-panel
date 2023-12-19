@@ -4,6 +4,10 @@ import uuid
 from abc import ABC
 from dataclasses import dataclass, field
 from typing import ClassVar
+from faker import Faker
+
+
+fake = Faker()
 
 
 @dataclass
@@ -40,6 +44,12 @@ class FilmWork(AbstractDataclass):
     modified: str = field(default='NOW()')
     id: uuid.UUID = field(default_factory=uuid.uuid4)
 
+    def __post_init__(self):
+        if self.description is None:
+            self.description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
+        if self.creation_date is None:
+            self.creation_date = fake.date_between(start_date='-30y', end_date='today')
+
     table_name: ClassVar[str] = 'film_work'
 
 
@@ -52,6 +62,10 @@ class Genre(AbstractDataclass):
     id: uuid.UUID = field(default_factory=uuid.uuid4)
 
     table_name: ClassVar[str] = 'genre'
+
+    def __post_init__(self):
+        if self.description is None:
+            self.description = fake.paragraph(nb_sentences=5, variable_nb_sentences=True)
 
 
 @dataclass
